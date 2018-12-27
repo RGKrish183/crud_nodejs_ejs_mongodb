@@ -1,0 +1,16 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<script type="text/javascript" src="./test/simditor-html.js"></script>
+<link rel="stylesheet" href="./test/simditor-html.css" media="screen" charset="utf-8" />
+
+<textarea id="editor" placeholder="Balabala" autofocus></textarea>
+
+
+<script>
+
+var editor = new Simditor({
+  textarea: $('#editor'),
+  toolbar: ['bold', 'italic', 'underline', 'color', '|', 'ol', 'ul', '|', 'html']
+});
+</script>

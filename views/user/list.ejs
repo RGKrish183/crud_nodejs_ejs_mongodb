@@ -1,0 +1,70 @@
+<div class="col-sm-12 col-md-12 col-xs-12">
+<h2> User Details</h2>
+
+<a href="/add" class="btn btn-warning">Add User</a>
+
+<hr/>
+<table class="table table-striped" id="tblusers_id">
+    <thead>
+    <tr>
+        <th>username</th>
+        <th>password</th>
+        <th>first_name</th>
+        <th>last_name</th>
+        <th>email</th>
+        <th>action</th>
+    </tr>
+    </thead>
+</table>
+</div>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        method:"get",
+        url:"/get",
+        success: function(response){
+            $('#tblusers_id').DataTable({
+                data: response.data,
+                columns: [
+                    { data: 'username' },
+                    { data: 'password' },
+                    { data: 'first_name' },
+                    { data: 'last_name' },
+                    { data: 'email' },
+                    {   data: '_id', 
+                        render: function(data, type, full, row){
+                            let action_content = `<a href="/update/${data}">Edit</a>`;
+                            action_content += `&nbsp;&nbsp;`;
+                            action_content += `<a href="javascript:;" onclick="go_delete('${data}');" >Delete</a>`;
+                            return action_content;
+                        }                
+                    },
+                ]
+            });            
+        }, error:function(error){
+            console.log(error);
+        }
+    });
+    window.go_delete = function(id){
+        if(confirm("Are you sure wants to remove this record?")){
+            $.ajax({
+                method:"get",
+                url:"/delete/"+id,
+                success:function(response){
+                    if(response.status){
+                        window.location.reload();
+                    } else {
+                        console.log(response);
+                        alert("Somthing went wrong, Kindly check it.");
+                    }
+                },
+                error: function(error){
+                    console.log(error);
+                    alert("Somthing went wrong, Kindly check it.");
+                }
+            });
+        }
+    }    
+});    
+</script>
